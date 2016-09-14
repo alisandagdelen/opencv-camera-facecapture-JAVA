@@ -13,10 +13,13 @@ import org.opencv.videoio.VideoCapture;
 
 public class CameraFrame extends JFrame implements ActionListener
 {
+  CameraPanel cp;
   CameraFrame() {
     System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
     VideoCapture list = new VideoCapture(0);
-    JMenu camera = new JMenu("camera");
+    cp = new CameraPanel();
+    Thread thread = new Thread(cp); 
+    JMenu camera = new JMenu("Camera");
     JMenuBar bar = new JMenuBar();
     bar.add(camera);
     int i = 1;
@@ -24,9 +27,12 @@ public class CameraFrame extends JFrame implements ActionListener
       JMenuItem cam = new JMenuItem("Camera" + i );
       cam.addActionListener(this);
       camera.add(cam);
+      list.release();
       list=new VideoCapture(i);
       i++;
       }
+    thread.start();
+    add(cp);
     setJMenuBar(bar);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(400,400);
