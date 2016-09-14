@@ -11,37 +11,37 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
-public class CameraFrame extends JFrame implements ActionListener
-{
+public class CameraFrame extends JFrame implements ActionListener {
   CameraPanel cp;
+
   CameraFrame() {
-    System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+    System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     VideoCapture list = new VideoCapture(0);
     cp = new CameraPanel();
-    Thread thread = new Thread(cp); 
+    Thread thread = new Thread(cp);
     JMenu camera = new JMenu("Camera");
     JMenuBar bar = new JMenuBar();
     bar.add(camera);
     int i = 1;
-    
-    while(list.isOpened()){
-      JMenuItem cam = new JMenuItem("Camera" + i );
+
+    while (list.isOpened()) {
+      JMenuItem cam = new JMenuItem("Camera" + i);
       cam.addActionListener(this);
       camera.add(cam);
       list.release();
-      
-      list=new VideoCapture(i);
+
+      list = new VideoCapture(i);
       i++;
-      }
+    }
     thread.start();
     add(cp);
     setJMenuBar(bar);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(400,400);
+    setSize(400, 400);
     setVisible(true);
-    
+
   }
-  
+
   public static void main(String[] args) {
     CameraFrame cf = new CameraFrame();
   }
@@ -50,11 +50,11 @@ public class CameraFrame extends JFrame implements ActionListener
   public void actionPerformed(ActionEvent e) {
     // TODO Auto-generated method stub
     JMenuItem source = (JMenuItem) e.getSource();
-    int num = Integer.parseInt(source.getText().substring(7))-1;
+    int num = Integer.parseInt(source.getText().substring(7)) - 1;
     cp.switchCamera(num);
-    
-    
-    
+
+
+
   }
-   
+
 }
